@@ -36,7 +36,9 @@ public class CrystalEnemy : MonoBehaviour
         if (distanceToPlayer <= fireRange)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, (playerTarget - transform.position).normalized, out hit, fireRange))
+            int layerToIgnore = LayerMask.NameToLayer("Platform");
+            int layerMask = ~(1 << layerToIgnore);
+            if (Physics.Raycast(transform.position, (playerTarget - transform.position).normalized, out hit, fireRange, layerMask))
             {
                 Debug.DrawLine(transform.position, hit.point, Color.red);
                 if (hit.collider.gameObject == player)
