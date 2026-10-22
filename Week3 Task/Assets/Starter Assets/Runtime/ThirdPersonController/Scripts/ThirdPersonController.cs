@@ -122,6 +122,8 @@ namespace StarterAssets
             }
         }
 
+        public bool canMove = true;
+
 
         private void Awake()
         {
@@ -158,7 +160,10 @@ namespace StarterAssets
 
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            if (canMove)
+            {
+                Move();
+            }
         }
 
         private void LateUpdate()

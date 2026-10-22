@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using StarterAssets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,16 +14,36 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject inventoryUIText;
     [SerializeField] private GameObject inventoryUIDisplay;
 
+    [SerializeField] private float pushDrag = 5f;
+
+    private CharacterController controller;
+    private ThirdPersonController controllerScript;
+    private Vector3 impactVelocity = Vector3.zero;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        controller = GetComponent<CharacterController>();
+        controllerScript = this.GetComponent<ThirdPersonController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (impactVelocity.magnitude > 0.2f)
+        {
+            controllerScript.canMove = false;  
+            controller.Move(impactVelocity * Time.deltaTime);
+        }
+        else
+        {
+            controllerScript.canMove = true;
+        }
+
+        if (impactVelocity.magnitude > 0f)
+        {
+            impactVelocity = Vector3.Lerp(impactVelocity, Vector3.zero, pushDrag * Time.deltaTime);
+        }
     }
 
     public void UpdateInventory()
@@ -41,5 +62,10 @@ public class PlayerScript : MonoBehaviour
             }
             inventoryUIDisplay.GetComponent<TextMeshProUGUI>().text = invText;
         }
+    }
+
+    public void hitPlayer(Vector3 force)
+    {
+        impactVelocity = force;
     }
 }

@@ -39,7 +39,6 @@ public class Door : MonoBehaviour
             this.transform.Rotate(Vector3.forward * -(positiveRotation * openSpeed) * Time.deltaTime);
             rotationAngle -= (positiveRotation * openSpeed) * Time.deltaTime;
         }
-        Debug.Log($"Door, {rotationAngle}");
     }
 
     private void OnTriggerEnter(Collider other)
